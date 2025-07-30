@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TuHeDesigner- style it your way</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    :root { --primary-color: #ffb347; --primary-hover: #ffa366; --dark-text: #2f2f2f; --light-text: #555; }
+    /* =============================== GLOBAL STYLES =============================== */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: #fffdf8; color: var(--dark-text); }
+    body > video { position: fixed; top: 0; left: 0; min-width: 100vw; min-height: 100vh; width: auto; height: auto; z-index: -1; object-fit: cover; }
+    
+    /* =============================== HEADER & NAVIGATION =============================== */
+    #page-home header, .custom-page header { background-color: #fff; padding: 0.6rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; }
+    .logo { display: flex; align-items: center; height: 50px; }
+    .logo img { height: 70px; width: 150px; display: block; }
+    .custom-page .logo { font-weight: bold; font-size: 1.2rem; }
+    .navbar { display: flex; align-items: center; gap: 2rem; }
+    .navbar ul { list-style: none; display: flex; gap: 1.5rem; margin: 0; padding: 0; }
+    .navbar ul li a { text-decoration: none; color: var(--dark-text); font-weight: 500; font-size: 1rem; transition: color 0.3s ease; cursor: pointer; }
+    .navbar ul li a:hover { color: var(--primary-color); }
+    .nav-icons { display: flex; align-items: center; gap: 12px; }
+    .search-bar { padding: 0.4rem 0.8rem; border-radius: 20px; border: 1px solid #ccc; outline: none; font-size: 0.9rem; }
+    .cart-icon-wrapper { position: relative; cursor: pointer; }
+    .cart-badge { position: absolute; top: -8px; right: -10px; background-color: #f44336; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; border: 1px solid white; }
+
+    /* =============================== HERO SECTION =============================== */
+    .hero { padding: 5rem 4rem; text-align: center; color: #b89696; background: url('https://printify.com/wp-content/uploads/2024/12/Blog-CTA-OptionLarge-SizeDesktop-1536x318.png') no-repeat center; background-size: cover; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1.1rem; margin-bottom: 1.5rem; }
+    .btn { padding: 0.7rem 1.5rem; background-color: var(--primary-color); color: white; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; transition: 0.3s; text-decoration: none; }
+    .btn:hover { background-color: var(--primary-hover); }
+
+    /* =============================== HOME PAGE PRODUCT GRID =============================== */
+    #page-home .products { padding: 2rem; text-align: center; }
+    #page-home .products h2 { font-size: 2rem; margin-bottom: 2rem; color: orange; font-style: italic; }
+    #page-home .product-grid { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    #page-home .product-card { background-color: #fff; border-radius: 12px; padding: 1rem; width: 220px; height: 340px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease; justify-content: space-between; }
+    #page-home .product-card:hover { transform: scale(1.03); }
+    #page-home .product-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; }
+    #page-home .product-card h3 { font-size: 1rem; margin: 0.5rem 0; }
+    #page-home .product-card p { font-size: 0.9rem; color: var(--light-text); margin-bottom: 1rem; }
+    .product-card-button { padding: 0.5rem 1rem; background-color: var(--primary-color); color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9rem; text-decoration: none; text-align: center; white-space: nowrap; }
+    .product-card-button:hover { background-color: var(--primary-hover); }
+
+    /* =============================== AUTH PAGE STYLES =============================== */
+    #page-auth {
+        display: none; /* Hidden by default */
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 2000;
+        overflow: hidden;
+    }
+    .auth-container {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        position: relative;
+        overflow: hidden;
+        width: 768px;
+        max-width: 100%;
+        min-height: 480px;
+    }
+    .form-container {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        transition: all 0.6s ease-in-out;
+    }
+    .sign-in-container { left: 0; width: 50%; z-index: 2; }
+    .sign-up-container { left: 0; width: 50%; opacity: 0; z-index: 1; }
+    .auth-container.right-panel-active .sign-in-container { transform: translateX(100%); }
+    .auth-container.right-panel-active .sign-up-container { transform: translateX(100%); opacity: 1; z-index: 5; animation: show 0.6s; }
+    @keyframes show { 0%, 49.99% { opacity: 0; z-index: 1; } 50%, 100% { opacity: 1; z-index: 5; } }
+    .overlay-container { position: absolute; top: 0; left: 50%; width: 50%; height: 100%; overflow: hidden; transition: transform 0.6s ease-in-out; z-index: 100; }
+    .auth-container.right-panel-active .overlay-container { transform: translateX(-100%); }
+    .overlay { background: var(--primary-color); background: linear-gradient(to right, var(--primary-hover), var(--primary-color)); background-repeat: no-repeat; background-size: cover; background-position: 0 0; color: #FFFFFF; position: relative; left: -100%; height: 100%; width: 200%; transform: translateX(0); transition: transform 0.6s ease-in-out; }
+    .auth-container.right-panel-active .overlay { transform: translateX(50%); }
+    .overlay-panel { position: absolute; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 0 40px; text-align: center; top: 0; height: 100%; width: 50%; transform: translateX(0); transition: transform 0.6s ease-in-out; }
+    .overlay-left { transform: translateX(-20%); }
+    .auth-container.right-panel-active .overlay-left { transform: translateX(0); }
+    .overlay-right { right: 0; transform: translateX(0); }
+    .auth-container.right-panel-active .overlay-right { transform: translateX(20%); }
+    #page-auth form { background-color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 0 50px; height: 100%; text-align: center; }
+    #page-auth input { background-color: #eee; border: none; padding: 12px 15px; margin: 8px 0; width: 100%; border-radius: 5px; }
+    #page-auth button { border-radius: 20px; border: 1px solid var(--primary-color); background-color: var(--primary-color); color: #FFFFFF; font-size: 12px; font-weight: bold; padding: 12px 45px; letter-spacing: 1px; text-transform: uppercase; transition: transform 80ms ease-in; cursor: pointer; }
+    #page-auth button:active { transform: scale(0.95); }
+    #page-auth button:focus { outline: none; }
+    #page-auth button.ghost { background-color: transparent; border-color: #FFFFFF; }
+    #page-auth h1 { font-weight: bold; margin: 0; }
+    #page-auth p { font-size: 14px; font-weight: 100; line-height: 20px; letter-spacing: 0.5px; margin: 20px 0 30px; }
+    .close-auth-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: #fff; z-index: 2001; cursor: pointer; background: none; border: none; }
+    .auth-container .social-container { margin: 20px 0; }
+    .auth-container .social-container a { border: 1px solid #DDDDDD; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin: 0 5px; height: 40px; width: 40px; color: #333; text-decoration: none; }
+    
+    /* =============================== FOOTER =============================== */
+    footer { background-color: var(--dark-text); color: #eee; padding: 2rem 1rem; font-size: 0.9rem; margin-top: 3rem; }
+    .footer-container { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 2rem; max-width: 1100px; margin: auto; }
+    .footer-section { flex: 1; min-width: 220px; }
+    .footer-section h4 { color: var(--primary-color); margin-bottom: 0.8rem; }
+    .footer-section ul { list-style: none; padding: 0; }
+    .footer-section ul li { margin-bottom: 0.4rem; }
+    .footer-section ul li a { color: #eee; text-decoration: none; transition: color 0.3s ease; cursor: pointer;}
+    .footer-section ul li a:hover { color: var(--primary-hover); }
+    .social-icons a { color: #eee; font-size: 1.2rem; margin-right: 1rem; transition: color 0.3s ease; }
+    .social-icons a:hover { color: var(--primary-color); }
+    footer > p { text-align: center; margin-top: 2rem; font-size: 0.85rem; color: #aaa; }
+    #newsletter-form input { padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
+    #newsletter-form button { padding: 8px 12px; background-color: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+    /* =============================== CUSTOMIZATION PAGE STYLES =============================== */
+    .custom-page h2 { text-align: center; font-size: 2rem; margin: 2rem 0; color: var(--dark-text); }
+    .product-page { max-width: 1350px; margin: 40px auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .product-page .product-image-gallery { flex: 1; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+    .product-page .product-image-gallery img { width: 45%; max-width: 290px; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .product-page .product-details { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .product-page .product-details .product-title { font-size: 36px; font-weight: 700; margin-bottom: 20px; }
+    .product-page .product-details p { font-size: 1rem; }
+    .product-page input[type=text]{ font-size:1rem; padding:12px 19px; background-color:#f0f0f0; border:1px solid #ccc; margin-bottom:15px; font-family: 'Montserrat', sans-serif; margin-top:0.5px; width: 100%; border-radius: 5px;}
+    .product-page .add-to-cart, .product-page .buy-now { background: #ffd814; border: 1px solid #fcd200; padding: 14px 30px; font-size: 18px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.3s; width: fit-content; }
+    .product-page .buy-now:hover, .product-page .add-to-cart:hover { background: #f7ca00; }
+    .photo-upload h3 { margin-top:1rem; }
+    .photo-upload input[type="file"] { padding: 0; width: 100%; max-width: 300px; }
+    .photo-upload .hint { font-size: 0.9rem; color: #555; margin-top: 0.5rem; }
+    .photo-upload button { margin-top: 1rem; padding: 0.6rem 1.5rem; background-color: #ff6b37; color: white; border: none; border-radius: 6px; cursor: pointer; margin-bottom: 12px; }
+    .customization-layout { display: flex; flex-wrap: wrap; gap: 40px; }
+    .preview-pane { flex: 1; min-width: 300px; }
+    .controls-pane { flex: 1; min-width: 300px; }
+    #canvas-container { position: relative; width: 100%; max-width: 450px; margin: auto; }
+    #canvas-container img { width: 100%; display: block; }
+    #preview-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .control-group { margin-bottom: 20px; }
+    .control-group h3 { margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .color-swatches button { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #ccc; cursor: pointer; margin-right: 10px; }
+    .color-swatches button.active { border-color: var(--primary-color); }
+    .size-options button { padding: 8px 16px; border: 1px solid #ccc; background: #f9f9f9; cursor: pointer; margin-right: 5px; border-radius: 20px; }
+    .size-options button.active { background: var(--dark-text); color: white; border-color: var(--dark-text); }
+    .main-actions button { padding: 12px 24px; font-size: 1rem; margin-right: 10px; cursor: pointer; border-radius: 8px; border: none; }
+    .main-actions .save-design-btn { background-color: #555; color: white; }
+    .main-actions .add-to-cart-main { background: var(--primary-color); color: white; }
+    .social-share a { font-size: 1.5rem; margin: 10px 10px 0 0; color: #333; text-decoration: none; }
+
+    /* Prototype Grids */
+    .prototype-grid { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 60px;}
+    .prototype-card { background-color: #fff; border-radius: 12px; padding: 1.5rem; width: 340px; height: auto; min-height: 400px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;}
+    .prototype-card:hover { transform: scale(1.03); }
+    .prototype-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 0.8rem; }
+    .prototype-card h3 { font-size: 1rem; margin: 0.5rem 0; color: #222; flex-grow: 1;}
+    .prototype-card p { font-size: 0.9rem; color: var(--light-text); margin-bottom: 1rem; }
+    .prototype-card button { padding: 0.5rem 1rem; background-color: var(--primary-color); color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9rem; }
+    .prototype-card button:hover { background-color: var(--primary-hover); }
+
+    /* =============================== REVIEWS, RECOMMENDATIONS, TRACKING & DASHBOARD =============================== */
+    .reviews-section, .recommend-section, #page-tracking, #page-dashboard { max-width: 1100px; margin: 40px auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+    .review { border-bottom: 1px solid #eee; padding: 15px 0; }
+    .review-header { display: flex; align-items: center; margin-bottom: 5px; }
+    .review-header h4 { margin: 0 10px 0 0; }
+    .stars .fa-star { color: #f9d71c; }
+    .recommend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .dashboard-nav { display: flex; border-bottom: 1px solid #ccc; margin-bottom: 20px; }
+    .dashboard-nav button { padding: 10px 20px; border: none; background: none; cursor: pointer; font-size: 1rem; }
+    .dashboard-nav button.active { border-bottom: 2px solid var(--primary-color); font-weight: bold; }
+    .dashboard-content { display: none; }
+    .dashboard-content.active { display: block; }
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .data-table th, .data-table td { padding: 12px; border-bottom: 1px solid #ddd; }
+    
+    /* =============================== FULL PAGE CART STYLES =============================== */
+    #page-cart .cart-layout { display: flex; flex-wrap: wrap; gap: 2rem; max-width: 1200px; margin: 2rem auto; }
+    .cart-items-container { flex: 2; min-width: 300px; }
+    .cart-summary-container { flex: 1; min-width: 280px; background-color: #f9f9f9; padding: 1.5rem; border-radius: 8px; height: fit-content; }
+    .cart-item { display: flex; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee; }
+    .cart-item img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; margin-right: 1.5rem; }
+    .cart-item-details { flex-grow: 1; }
+    .cart-item-details h3 { margin: 0 0 10px; font-size: 1.1rem; }
+    .cart-item-details p { margin: 5px 0; color: var(--light-text); }
+    .cart-item-actions button { background: none; border: none; color: #f44336; cursor: pointer; font-size: 1rem; }
+    .cart-summary-container h3 { margin-top: 0; text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 1rem; }
+    .summary-line { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+    .checkout-btn { width: 100%; padding: 1rem; font-size: 1.1rem; font-weight: bold; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s; }
+    .checkout-btn:hover { background-color: var(--primary-hover); }
+
+    /* =============================== ORDER NOW PAGE STYLES =============================== */
+    #page-order { background-color: #f8f9fa; }
+    .order-container { max-width: 800px; margin: 2rem auto; padding: 2rem; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); animation: fadeInUp 0.5s ease-out; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .order-summary { margin-bottom: 2rem; }
+    .order-summary h3 { text-align: center; color: var(--dark-text); border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+    .address-form h3 { text-align: center; color: var(--dark-text); border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
+    .address-form .form-group { margin-bottom: 1.5rem; }
+    .address-form label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--light-text); }
+    .address-form input { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; font-family: 'Montserrat', sans-serif; transition: border-color 0.3s, box-shadow 0.3s; }
+    .address-form input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.3); }
+    .confirm-order-btn { width: 100%; padding: 1rem; font-size: 1.2rem; font-weight: bold; background: linear-gradient(45deg, var(--primary-color), var(--primary-hover)); color: white; border: none; border-radius: 8px; cursor: pointer; transition: transform 0.2s, box-shadow 0.3s; }
+    .confirm-order-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+
+    /* =============================== ORDER CONFIRMATION POPUP =============================== */
+    #order-confirmation-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); z-index: 3000; justify-content: center; align-items: center; }
+    .popup-content { background-color: #fff; padding: 40px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: zoomIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+    @keyframes zoomIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+    .popup-content h2 { margin-top: 0; color: var(--dark-text); font-size: 1.8rem; }
+    .popup-content p { color: var(--light-text); margin-bottom: 2rem; font-size: 1.1rem; }
+    .popup-content .btn-home { background-color: var(--primary-color); color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; transition: background-color 0.3s; }
+    .popup-content .btn-home:hover { background-color: var(--primary-hover); }
+    .success-animation { margin: 0 auto 20px; }
+    .success-animation .checkmark-circle { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 3; stroke-miterlimit: 10; stroke: #4CAF50; fill: none; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+    .success-animation .checkmark { width: 80px; height: 80px; border-radius: 50%; display: block; stroke-width: 3; stroke: #fff; stroke-miterlimit: 10; margin: 10% auto; box-shadow: inset 0px 0px 0px #4CAF50; animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; }
+    .success-animation .checkmark-check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
+    @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+    @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+    @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 40px #4CAF50; } }
+  </style>
+</head>
+
+<body>
+  <video autoplay muted loop playsinline>
+    <source src="video.mp4" type="video/mp4"> Your browser does not support the video tag.
+  </video>
+
+  <div id="page-home" style="display: block;">
+    <header>
+      <a data-target-page="page-home" style="text-decoration: none; color: inherit;"><div class="logo"><img src="tuhidesignerlogo.jpg" alt="TuHeDesigner Logo"></div></a>
+      <nav class="navbar">
+        <ul>
+          <li><a data-target-page="page-home">Home</a></li>
+          <li><a data-target-page="page-dashboard" id="profile-dashboard-link" style="display:none;">Dashboard</a></li>
+          <li><a id="categoriesLink">Categories</a></li>
+        </ul>
+        <div class="nav-icons">
+          <div class="auth-buttons"><button data-auth-type="register">Register</button><button data-auth-type="login">Login</button></div>
+          <div id="profileBox" style="display: none;"></div>
+          <div class="cart-icon-wrapper" onclick="showPage('page-cart')"><i class="fas fa-shopping-cart"></i><span id="cart-item-count" class="cart-badge" style="display:none;">0</span></div>
+        </div>
+      </nav>
+    </header>
+    <section class="hero"><h1>#Banale Tu</h1><p>Express your style. Shop bold, shop funky.</p><a href="#" class="btn">Start Shopping</a></section>
+    <section class="products" id="customizableCategories">
+      <h2>🔥Our Customizable Categories🔥</h2>
+      <div class="product-grid">
+        <div class="product-card"><img src="https://thebanyantee.com/cdn/shop/files/Screenshot2024-05-10at12.21.59PM.png?v=1715324076" alt="Mug"/><h3>Mugs Banale</h3><p>From ₹399</p><a href="#" data-target-page="page-mugs" class="product-card-button">Customise Now !!</a></div>
+        <div class="product-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVzOMB7DvEUz9KRUjFtKPQFN1JJ_CaPP9vGw&s" alt="T-Shirt"/><h3>T-Shirts Banale</h3><p>From ₹499</p><a href="#" data-target-page="page-tshirts" class="product-card-button">Customise Now !!</a></div>
+        <div class="product-card"><img src="https://assets.mediamodifier.com/mockups/67bdfa7739c302b852c7793c/bedroom-wall-frame-mockup-for-interior-art-displays_thumb.jpg" alt="Frame"/><h3>Frames Banale</h3><p>From ₹599</p><a href="#" data-target-page="page-frames" class="product-card-button">Customise Now !!</a></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="page-mugs" class="custom-page" style="display:none;">
+    <header><a data-target-page="page-home" style="text-decoration: none; color: inherit;"><div class="logo">☕️ Tu Hi Designer</div></a><nav class="navbar"><ul><li><a data-target-page="page-home">Home</a></li></ul><div class="nav-icons"><div class="cart-icon-wrapper" onclick="showPage('page-cart')"><i class="fas fa-shopping-cart"></i><span class="cart-badge" style="display:none;">0</span></div></div></nav></header>
+    <h2>Customize Mugs</h2>
+    <div class="prototype-grid">
+        <div class="prototype-card" data-name="Color-Changing Magic Mug" data-price="499" data-image="https://quapri.in/wp-content/uploads/2024/04/Colour-Changing-Mugs-2.webp"><img src="https://quapri.in/wp-content/uploads/2024/04/Colour-Changing-Mugs-2.webp" alt="mug1"><h3>Color-Changing Magic Mug</h3><p>Starting from ₹499</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Custom Ceramic Magic Mug" data-price="499" data-image="https://www.adornscustomgifts.com/wp-content/uploads/2024/08/1-12.jpg"><img src="https://www.adornscustomgifts.com/wp-content/uploads/2024/08/1-12.jpg" alt="mug2"><h3>Customized Ceramic Magic Mug</h3><p>Starting from ₹499</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Custom Name Silver Mug" data-price="549" data-image="https://www.thestylesalad.in/cdn/shop/products/silvermugsingle.jpg?v=1617710983"><img src="https://www.thestylesalad.in/cdn/shop/products/silvermugsingle.jpg?v=1617710983" alt="mug3"><h3>Customize Mugs With Your Name</h3><p>Starting from ₹549</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Personalised Cricket Enamel Mug" data-price="599" data-image="https://indigifts.in/cdn/shop/files/S-EMLSTWH01ROSD-CKT24004-PA01_App3_35939d68-e3bf-44b2-8fb2-21e8896c47cf.jpg?v=1712660532"><img src="https://indigifts.in/cdn/shop/files/S-EMLSTWH01ROSD-CKT24004-PA01_App3_35939d68-e3bf-44b2-8fb2-21e8896c47cf.jpg?v=1712660532" alt="mug"><h3>Personalised Cricket Fever Enamel Mug</h3><p>Starting from ₹599</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Wedding Coffee Mug" data-price="399" data-image="https://personalizedgift.in/wp-content/uploads/2020/04/wedding-2-6.jpg"><img src="https://personalizedgift.in/wp-content/uploads/2020/04/wedding-2-6.jpg" alt="mug5"><h3>Wedding – Coffee Mug With Print</h3><p>Starting from ₹399</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Face Mash Personalized Mug" data-price="529" data-image="https://i.etsystatic.com/43880696/r/il/32bcd4/5126693019/il_fullxfull.5126693019_osf3.jpg"><img src="https://i.etsystatic.com/43880696/r/il/32bcd4/5126693019/il_fullxfull.5126693019_osf3.jpg" alt="mug10"><h3>Face Mash Personalized Mug</h3><p>Starting from ₹529</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+    </div>
+    <main class="product-page">
+      <div class="customization-layout">
+        <div class="product-image-gallery">
+            <img src="https://betweenboxes.in/cdn/shop/files/cust-mug-600x600-500x500.webp?v=1720606037" alt="Customize mug according to you" />
+            <img src="https://cdn11.bigcommerce.com/s-dos1319s/images/stencil/760x760/products/1280/9652/create-your-own-photo-mug__56879.1682458415.jpg?c=2" alt="Customize mug according to you" />
+        </div>
+        <div class="product-details">
+          <h1 class="product-title">Customize Mugs According to You</h1>
+          <p><ul><li>Capacity: 325 ml (11oz)</li><li>Easy Grip For Handling</li><li>Suitable for Hot and Cold Drinks</li></ul></p>
+          <section class="photo-upload">
+            <h3>Upload Your Photos (Max 3)</h3>
+            <form onsubmit="return false;"><input type="file" id="photos-mugs" accept="image/*" multiple><p class="hint">You can select up to 3 images.</p><button type="submit">Upload</button></form>
+          </section>
+          <input type="text" placeholder="Write Quotes.....">
+          <pre><button class="add-to-cart">Add to Cart</button> <button class="buy-now">Buy Now</button></pre>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="page-tshirts" class="custom-page" style="display:none;">
+    <header><a data-target-page="page-home" style="text-decoration: none; color: inherit;"><div class="logo">👕 Tu Hi Designer</div></a><nav class="navbar"><ul><li><a data-target-page="page-home">Home</a></li></ul><div class="nav-icons"><div class="cart-icon-wrapper" onclick="showPage('page-cart')"><i class="fas fa-shopping-cart"></i><span class="cart-badge" style="display:none;">0</span></div></div></nav></header>
+    <h2>Customize T-Shirts</h2>
+    <div class="prototype-grid">
+        <div class="prototype-card" data-name="Customized Sports Jersey" data-price="499" data-image="https://www.nextprint.in/cdn/shop/products/202304070755219101.png?v=1680877757"><img src="https://www.nextprint.in/cdn/shop/products/202304070755219101.png?v=1680877757" alt="tshirt1"><h3>Customized Sublimation Sports Jersey</h3><p>Starting from ₹499</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Trio Customised Tshirt" data-price="499" data-image="https://blissbloss.in/cdn/shop/files/62BBB62E-32FB-442A-AB6F-583781D28D85.jpg?v=1720872150"><img src="https://blissbloss.in/cdn/shop/files/62BBB62E-32FB-442A-AB6F-583781D28D85.jpg?v=1720872150" alt="tshirt2"><h3>Trio Customised Tshirt</h3><p>Starting from ₹499</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Daddy and Baby Tshirt Set" data-price="599" data-image="https://geekmonkey.in/cdn/shop/products/original_copy-and-paste-t-shirt-set.jpg?v=1687471071&width=1000"><img src="https://geekmonkey.in/cdn/shop/products/original_copy-and-paste-t-shirt-set.jpg?v=1687471071&width=1000" alt="tshirt4"><h3>Daddy and Baby Personalized Tshirt Set</h3><p>Starting from ₹599</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Couple Customize T-shirt" data-price="549" data-image="https://www.deshidukan.in/cdn/shop/files/CPL-2423-WT_800x800_crop_center@2x.jpg?v=1713960448"><img src="https://www.deshidukan.in/cdn/shop/files/CPL-2423-WT_800x800_crop_center@2x.jpg?v=1713960448" alt="tshirt5"><h3>Couple Customize T-shirt</h3><p>Starting from ₹549</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Customized Travel T-shirt" data-price="499" data-image="https://mir-s3-cdn-cf.behance.net/project_modules/1400/5dabd887203985.5db0a618cd003.jpg"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/5dabd887203985.5db0a618cd003.jpg" alt="tshirt8"><h3>Customized Travel T-shirt</h3><p>Starting from ₹499</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Customized hoodies" data-price="799" data-image="https://ektarfa.online/cdn/shop/products/7_e271748d-de38-416b-bfa4-fbc08e7cbd42.jpg?v=1672916877"><img src="https://ektarfa.online/cdn/shop/products/7_e271748d-de38-416b-bfa4-fbc08e7cbd42.jpg?v=1672916877" alt="tshirt9"><h3>Customized hoodies</h3><p>Starting from ₹799</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+    </div>
+    <main class="product-page">
+      <div class="customization-layout">
+          <div class="preview-pane">
+              <div id="canvas-container">
+                  <img id="tshirt-image" src="https://www.transparentpng.com/thumb/t-shirt/zT2Gff-t-shirt-white-background.png" alt="White T-shirt">
+                  <canvas id="preview-canvas"></canvas>
+              </div>
+          </div>
+          <div class="controls-pane">
+              <div class="control-group"><h3>1. Choose Color</h3><div class="color-swatches"><button style="background-color: white;" data-color="white" class="active" data-image-url="https://www.transparentpng.com/thumb/t-shirt/zT2Gff-t-shirt-white-background.png"></button><button style="background-color: black;" data-color="black" data-image-url="https://purepng.com/public/uploads/large/purepng.com-black-t-shirtt-shirtblack-t-shirtfashion-t-shirt-ecommercet-shirt-231520531583u5pog.png"></button><button style="background-color: #007bff;" data-color="blue" data-image-url="https://www.pngall.com/wp-content/uploads/2016/04/T-Shirt-PNG-HD.png"></button></div></div>
+              <div class="control-group"><h3>2. Choose Size</h3><div class="size-options"><button class="active">S</button><button>M</button><button>L</button><button>XL</button></div></div>
+              <div class="control-group"><h3>3. Add Image</h3><input type="file" id="image-loader" accept="image/*"></div>
+              <div class="control-group"><h3>4. Add Text</h3><input type="text" id="text-input" placeholder="Your Text Here..."></div>
+              <div class="control-group main-actions"><button class="save-design-btn">Save Design</button><button class="add-to-cart-main">Add to Cart</button></div>
+              <div class="control-group social-share"><h3>Share Your Creation!</h3><a href="#" class="share-fb" target="_blank"><i class="fab fa-facebook"></i></a><a href="#" class="share-tw" target="_blank"><i class="fab fa-twitter"></i></a><a href="#" class="share-wa" target="_blank"><i class="fab fa-whatsapp"></i></a></div>
+          </div>
+      </div>
+    </main>
+  </div>
+  
+  <div id="page-frames" class="custom-page" style="display:none;">
+    <header><a data-target-page="page-home" style="text-decoration: none; color: inherit;"><div class="logo">🖼️ Tu Hi Designer</div></a><nav class="navbar"><ul><li><a data-target-page="page-home">Home</a></li></ul><div class="nav-icons"><div class="cart-icon-wrapper" onclick="showPage('page-cart')"><i class="fas fa-shopping-cart"></i><span class="cart-badge" style="display:none;">0</span></div></div></nav></header>
+    <h2>Designer Frames</h2>
+    <div class="prototype-grid">
+        <div class="prototype-card" data-name="Spotify Song Photo Frame" data-price="399" data-image="https://thephotoframing.com/wp-content/uploads/2023/04/Untitled-design-40.webp"><img src="https://thephotoframing.com/wp-content/uploads/2023/04/Untitled-design-40.webp" alt="frame1"><h3>Customized Spotify Song Photo Frame</h3><p>Starting from ₹399</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="10-Photo Custom Collage Frame" data-price="450" data-image="https://images.meesho.com/images/products/458382111/xpuve_512.webp"><img src="https://images.meesho.com/images/products/458382111/xpuve_512.webp" alt="frame2"><h3>Giftway 10-Photo Custom Collage Frame</h3><p>Starting from ₹450</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Custom Diploma Frame" data-price="499" data-image="https://i.diplomaframe.com/chc-blog/wp-content/uploads/2022/12/Office-Space-Lead-e1683754402440.jpg"><img src="https://i.diplomaframe.com/chc-blog/wp-content/uploads/2022/12/Office-Space-Lead-e1683754402440.jpg" alt="frame3"><h3>Designing a Custom Diploma Frame</h3><p>Starting from ₹499</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+        <div class="prototype-card" data-name="Mosaic Photo Frame" data-price="599" data-image="https://m.media-amazon.com/images/I/A1uB-KNI22L.jpg"><img src="https://m.media-amazon.com/images/I/A1uB-KNI22L.jpg" alt="frame4"><h3>Mosaic Photo Frame</h3><p>Starting from ₹599</p><button class="add-to-cart-prototype">Add to Cart</button></div>
+    </div>
+    <main class="product-page">
+      <div class="customization-layout">
+        <div class="product-image-gallery">
+            <img src="https://papierhq.co.nz/cdn/shop/products/a3naturalframe_7043b462-1005-406e-8ecb-c3b285fe1d44.jpg?v=1717557428" alt="Customize Frames according to you" />
+            <img src="https://papierhq.co.nz/cdn/shop/products/a3whiteframe_a5be4c20-031b-4b6f-bb8a-d1f4ceb8a680_960x960_crop_center.jpg?v=1609815099" alt="Customize Frames according to you" />
+        </div>
+        <div class="product-details">
+          <h1 class="product-title">Customize Frames According to You</h1>
+          <p><ul><li>Choose from multiple frame sizes and colors.</li><li>Upload your own high-resolution photos.</li><li>Add custom text or quotes.</li></ul></p>
+          <section class="photo-upload">
+            <h3>Upload Your Photos (Max 6)</h3>
+            <form onsubmit="return false;"><input type="file" id="photos-frames" accept="image/*" multiple><p class="hint">You can select up to 6 images.</p><button type="submit">Upload</button></form>
+          </section>
+          <input type="text" placeholder="Write Quotes.....">
+          <pre><button class="add-to-cart">Add to Cart</button> <button class="buy-now">Buy Now</button></pre>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <div id="page-dashboard" class="custom-page" style="display:none;">
+    <header><a data-target-page="page-home" style="text-decoration: none; color: inherit;"><div class="logo">👕 Tu Hi Designer</div></a><nav class="navbar"><ul><li><a data-target-page="page-home">Home</a></li></ul><div class="nav-icons"><div class="cart-icon-wrapper" onclick="showPage('page-cart')"><i class="fas fa-shopping-cart"></i><span class="cart-badge" style="display:none;">0</span></div></div></nav></header>
+    <h2>My Dashboard</h2>
+    <section id="page-dashboard-content" class="reviews-section">
+      <div class="dashboard-nav">
+        <button class="active" onclick="switchDashboardTab(event, 'orders')">Order History</button>
+        <button onclick="switchDashboardTab(event, 'designs')">Saved Designs</button>
+        <button onclick="switchDashboardTab(event, 'addresses')">Addresses</button>
+      </div>
+      <div id="orders" class="dashboard-content active">
+        <h3>Your Orders</h3>
+        <table class="data-table">
+          <thead><tr><th>Order ID</th><th>Date</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>THD12345</td><td>25 Jul 2025</td><td>₹998.00</td><td>Shipped</td></tr>
+            <tr><td>THD12301</td><td>15 Jul 2025</td><td>₹499.00</td><td>Delivered</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="designs" class="dashboard-content"><h3>Your Saved Designs</h3><div id="saved-designs-list"><p>You have no saved designs.</p></div></div>
+      <div id="addresses" class="dashboard-content"><h3>Your Addresses</h3><p><b>Primary Address:</b><br>Rohan Kapoor<br>123, Arera Colony, Bhopal, Madhya Pradesh, 462016</p></div>
+    </section>
+  </div>
+  
+  <div id="page-tracking" class="custom-page" style="display:none;">
+    <header><a data-target-page="page-home" style="text-decoration: none; color: inherit;"><div class="logo">👕 Tu Hi Designer</div></a><nav class="navbar"><ul><li><a data-target-page="page-home">Home</a></li></ul></nav></header>
+    <h2>Track Your Order</h2>
+    <section id="page-tracking-content" class="reviews-section">
+      <p>Enter your Order ID below to check the status of your order.</p>
+      <form id="tracking-form" onsubmit="trackOrder(event)">
+        <input type="text" id="order-id-input" placeholder="Enter Order ID (e.g., THD12345)" style="width: 70%; padding: 12px; font-size: 1rem;">
+        <button type="submit" class="btn" style="padding: 12px 20px;">Track</button>
+      </form>
+      <div id="tracking-result" style="margin-top: 20px;"></div>
+    </section>
+  </div>
+
+  <div id="page-auth">
+      <button class="close-auth-btn" onclick="showPage('page-home')">&times;</button>
+      <div class="auth-container" id="authContainer">
+          <div class="form-container sign-up-container">
+              <form onsubmit="submitRegistration(event)">
+                  <h1>Create Account</h1>
+                  <div class="social-container">
+                      <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                      <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                  </div>
+                  <span>or use your email for registration</span>
+                  <input type="text" id="regName" placeholder="Name" required />
+                  <input type="email" id="regEmail" placeholder="Email" required />
+                  <input type="password" id="regPass" placeholder="Password" required />
+                  <button type="submit">Sign Up</button>
+              </form>
+          </div>
+          <div class="form-container sign-in-container">
+              <form onsubmit="submitLogin(event)">
+                  <h1>Sign in</h1>
+                  <div class="social-container">
+                      <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                      <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                  </div>
+                  <span>or use your account</span>
+                  <input type="email" id="loginEmail" placeholder="Email" required />
+                  <input type="password" id="loginPass" placeholder="Password" required />
+                  <a href="#">Forgot your password?</a>
+                  <button type="submit">Sign In</button>
+              </form>
+          </div>
+          <div class="overlay-container">
+              <div class="overlay">
+                  <div class="overlay-panel overlay-left">
+                      <h1>Welcome Back!</h1>
+                      <p>To keep connected with us please login with your personal info</p>
+                      <button class="ghost" id="signIn">Sign In</button>
+                  </div>
+                  <div class="overlay-panel overlay-right">
+                      <h1>Hello, Friend!</h1>
+                      <p>Enter your personal details and start your journey with us</p>
+                      <button class="ghost" id="signUp">Sign Up</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  <div id="page-cart" class="custom-page" style="display:none;">
+    <header><a data-target-page="page-home" style="text-decoration: none; color: inherit;"><div class="logo">🛒 Shopping Cart</div></a><nav class="navbar"><ul><li><a data-target-page="page-home">Home</a></li></ul></nav></header>
+    <div class="cart-layout">
+        <div class="cart-items-container">
+            <h2>Your Items</h2>
+            <div id="cart-items-list-page">
+                <p>Your cart is currently empty.</p>
+            </div>
+        </div>
+        <div class="cart-summary-container">
+            <h3>Order Summary</h3>
+            <div id="cart-summary-details">
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span id="summary-subtotal">₹0.00</span>
+                </div>
+                <div class="summary-line">
+                    <span>Shipping</span>
+                    <span>FREE</span>
+                </div>
+                <hr>
+                <div class="summary-line" style="font-weight: bold; font-size: 1.2rem;">
+                    <span>Total</span>
+                    <span id="summary-total">₹0.00</span>
+                </div>
+            </div>
+            <button class="checkout-btn" onclick="showOrderPage()">Proceed to Checkout</button>
+        </div>
+    </div>
+  </div>
+
+  <div id="page-order" class="custom-page" style="display:none;">
+      <header>
+          <a data-target-page="page-cart" style="text-decoration: none; color: inherit;"><div class="logo">🛍️ Confirm Your Order</div></a>
+          <nav class="navbar">
+              <ul>
+                  <li><a data-target-page="page-cart">Back to Cart</a></li>
+              </ul>
+          </nav>
+      </header>
+      <div class="order-container">
+          <div class="order-summary">
+              <h3>Your Order Summary</h3>
+              <div id="order-summary-list">
+                  </div>
+          </div>
+          <div class="address-form">
+              <h3>Shipping Address</h3>
+              <form id="shipping-address-form" onsubmit="confirmOrder(event)">
+                  <div class="form-group">
+                      <label for="fullName">Full Name</label>
+                      <input type="text" id="fullName" placeholder="Enter your full name" required>
+                  </div>
+                  <div class="form-group">
+                      <label for="address">Address</label>
+                      <input type="text" id="address" placeholder="123, Arera Colony" required>
+                  </div>
+                   <div class="form-group">
+                      <label for="city">City</label>
+                      <input type="text" id="city" placeholder="Bhopal" required>
+                  </div>
+                   <div class="form-group">
+                      <label for="phone">Phone Number</label>
+                      <input type="tel" id="phone" placeholder="Your 10-digit phone number" required>
+                  </div>
+                  <button type="submit" class="confirm-order-btn">Confirm Order</button>
+              </form>
+          </div>
+      </div>
+  </div>
+
+  <div id="order-confirmation-popup">
+      <div class="popup-content">
+          <div class="success-animation">
+              <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                  <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                  <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+              </svg>
+          </div>
+          <h2>Order Confirmed!</h2>
+          <p>Thank you for your purchase. Your order is being processed.</p>
+          <a href="#" onclick="goHomeAfterOrder()" class="btn-home">Back to Home</a>
+      </div>
+  </div>
+  
+  <div id="contactModal" class="popup-overlay"><div class="popup-box"><h2>Contact Us</h2><p><b>Phone:</b> 8393409285, 8223491036<br><b>Email:</b> support@tuhidesigner.com</p><button class="close-btn" onclick="closePopup('contactModal')">Close</button></div></div>
+  
+  <footer id="main-footer">
+    <div class="footer-container">
+      <div class="footer-section"><h4>Tu Hi Designer</h4><p>Banale Tu – Style it Your Way.</p></div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a data-target-page="page-tracking">Track Order</a></li>
+          <li><a>Privacy Policy</a></li>
+          <li><a onclick="showPopup('contactModal')">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+          <h4>Stay Updated</h4>
+          <form id="newsletter-form" onsubmit="subscribeNewsletter(event)"><input type="email" id="newsletter-email" placeholder="Enter your email" required><button type="submit">Subscribe</button></form>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-facebook"></i></a></div>
+      </div>
+    </div>
+    <p>© 2025 Tu Hi Designer. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // ========== GLOBAL SCOPE FUNCTIONS & STATE ==========
+    const G_STATE = {
+        isUserLoggedIn: localStorage.getItem("isLoggedIn") === "true",
+        currentUser: localStorage.getItem("currentUser") || null,
+        tshirt: { color: 'white', size: 'S', text: '', image: null }
+    };
+
+    function showPage(pageId, authType = null) {
+        document.querySelectorAll('#page-home, .custom-page, #page-auth').forEach(p => p.style.display = 'none');
+        document.getElementById('main-footer').style.display = 'block'; // Show footer by default
+
+        const pageToShow = document.getElementById(pageId);
+        if (pageToShow) {
+            if (pageId === 'page-auth') {
+                pageToShow.style.display = 'flex'; // Auth page uses flex
+                document.getElementById('main-footer').style.display = 'none'; // Hide footer on auth page
+                const container = document.getElementById('authContainer');
+                if (authType === 'register') {
+                    container.classList.add("right-panel-active");
+                } else {
+                    container.classList.remove("right-panel-active");
+                }
+            } else {
+                 pageToShow.style.display = 'block';
+            }
+
+            if (pageId === 'page-dashboard') document.dispatchEvent(new Event('dashboardOpened'));
+            if (pageId === 'page-cart') document.dispatchEvent(new Event('cartOpened'));
+            if (pageId === 'page-order') showOrderPage();
+            window.scrollTo(0, 0);
+        }
+    }
+    function showPopup(id) {
+        const popup = document.getElementById(id);
+        if(popup) popup.style.display = "flex";
+    }
+    function closePopup(id) { const p = document.getElementById(id); if(p) p.style.display = "none"; }
+    function subscribeNewsletter(event) { event.preventDefault(); alert(`Thank you for subscribing, ${document.getElementById('newsletter-email').value}!`); event.target.reset(); }
+    function switchDashboardTab(event, tabName) {
+        document.querySelectorAll('.dashboard-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.dashboard-nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+    function trackOrder(event) {
+        event.preventDefault();
+        const orderId = document.getElementById('order-id-input').value.toUpperCase();
+        const resultDiv = document.getElementById('tracking-result');
+        const fakeOrders = { 'THD12345': 'Your order has been shipped on 25 Jul 2025 and is on its way.', 'THD12301': 'Your order was delivered on 15 Jul 2025.' };
+        resultDiv.innerHTML = fakeOrders[orderId] ? `<h4>Status for ${orderId}:</h4><p>${fakeOrders[orderId]}</p>` : `<p>Sorry, order ID "${orderId}" not found.</p>`;
+    }
+    window.logout = function() {
+        localStorage.removeItem("currentUser"); localStorage.removeItem("isLoggedIn");
+        G_STATE.isUserLoggedIn = false; G_STATE.currentUser = null;
+        document.dispatchEvent(new Event('authChange'));
+        showPage('page-home');
+    }
+    window.submitRegistration = function(event) {
+        event.preventDefault();
+        const name = document.getElementById("regName").value, email = document.getElementById("regEmail").value, pass = document.getElementById("regPass").value;
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        users.push({name, email, password: pass}); localStorage.setItem("users", JSON.stringify(users));
+        alert("Registration successful! Please log in.");
+        document.getElementById('authContainer').classList.remove('right-panel-active');
+    }
+    window.submitLogin = function(event) {
+        event.preventDefault();
+        const email = document.getElementById("loginEmail").value, pass = document.getElementById("loginPass").value;
+        const user = (JSON.parse(localStorage.getItem("users")) || []).find(u => u.email === email && u.password === pass);
+        if (!user) return alert("Incorrect email or password.");
+        localStorage.setItem("currentUser", user.email); localStorage.setItem("isLoggedIn", "true");
+        G_STATE.isUserLoggedIn = true; G_STATE.currentUser = user.email;
+        document.dispatchEvent(new Event('authChange'));
+        showPage('page-home');
+    }
+
+    // ========== ORDER PAGE AND CONFIRMATION LOGIC ==========
+    function showOrderPage() {
+        showPage('page-order');
+        const orderSummaryList = document.getElementById('order-summary-list');
+        const cart = getCart();
+        orderSummaryList.innerHTML = ''; // Clear previous summary
+
+        if (cart.length === 0) {
+            orderSummaryList.innerHTML = '<p>Your cart is empty. Nothing to order.</p>';
+            return;
+        }
+
+        cart.forEach(item => {
+            const itemEl = document.createElement('div');
+            itemEl.classList.add('cart-item'); // Reuse cart-item style for consistency
+            itemEl.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="cart-item-details">
+                    <h3>${item.name}</h3>
+                    <p>Price: ₹${item.price.toFixed(2)}</p>
+                    <p>Quantity: ${item.quantity}</p>
+                </div>
+            `;
+            orderSummaryList.appendChild(itemEl);
+        });
+    }
+
+    function confirmOrder(event) {
+        event.preventDefault();
+        const form = document.getElementById('shipping-address-form');
+        if (form.checkValidity()) {
+            const address = {
+                fullName: document.getElementById('fullName').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                phone: document.getElementById('phone').value,
+            };
+            // Save address to local storage (optional)
+            localStorage.setItem('shippingAddress', JSON.stringify(address));
+            
+            // Show confirmation popup
+            const popup = document.getElementById('order-confirmation-popup');
+            popup.style.display = 'flex';
+
+            // Clear the cart
+            saveCart([]);
+        } else {
+            // If form is invalid, trigger browser's validation UI
+            form.reportValidity();
+        }
+    }
+
+    function goHomeAfterOrder() {
+        const popup = document.getElementById('order-confirmation-popup');
+        popup.style.display = 'none';
+        showPage('page-home');
+    }
+
+    // ========== MAIN SCRIPT EXECUTION ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        let canvas, ctx, tshirtImg, uploadedImg; // Moved declarations to the top of the scope
+
+        // ========== INITIALIZATION ==========
+        updateCartUI();
+        updateLoginStateUI();
+        attachEventListeners();
+        initTshirtCanvas();
+
+        // ========== PAGE & UI LOGIC ==========
+        function updateLoginStateUI() {
+            const profileLink = document.getElementById('profile-dashboard-link');
+            const authButtons = document.querySelector('.auth-buttons');
+            const profileBox = document.getElementById('profileBox');
+            if (G_STATE.isUserLoggedIn && G_STATE.currentUser) {
+                const user = (JSON.parse(localStorage.getItem("users")) || []).find(u => u.email === G_STATE.currentUser);
+                if(profileLink) profileLink.style.display = 'block';
+                if(authButtons) authButtons.style.display = 'none';
+                if(profileBox) {
+                    profileBox.innerHTML = `<span>Hi, ${user.name.split(" ")[0]}</span><button onclick="logout()">Logout</button>`;
+                    profileBox.style.display = "inline-flex";
+                }
+            } else {
+                if(profileLink) profileLink.style.display = 'none';
+                if(authButtons) authButtons.style.display = 'flex';
+                if(profileBox) profileBox.style.display = 'none';
+            }
+        }
+        
+        // ========== DASHBOARD LOGIC ==========
+        document.addEventListener('dashboardOpened', function() {
+            const designs = JSON.parse(localStorage.getItem(`designs_${G_STATE.currentUser}`)) || [];
+            const designsList = document.getElementById('saved-designs-list');
+            if(designs.length > 0) {
+                designsList.innerHTML = '';
+                designs.forEach((design, index) => {
+                    designsList.innerHTML += `<p>Design ${index + 1}: ${design.color} ${design.size} shirt with text "${design.text}"</p>`;
+                });
+            } else {
+                designsList.innerHTML = `<p>You have no saved designs.</p>`;
+            }
+        });
+
+        // ========== SHOPPING CART LOGIC ==========
+        function getCart() { return JSON.parse(localStorage.getItem('shoppingCart')) || []; }
+        function saveCart(cart) { localStorage.setItem('shoppingCart', JSON.stringify(cart)); updateCartUI(); }
+
+        function addToCart(product) {
+            let cart = getCart();
+            const existing = cart.find(item => item.name === product.name);
+            if (existing) { existing.quantity += 1; } 
+            else { product.quantity = 1; cart.push(product); }
+            saveCart(cart);
+            alert(`'${product.name}' has been added to your cart.`);
+        }
+
+        function removeFromCart(productName) {
+            saveCart(getCart().filter(item => item.name !== productName));
+            document.dispatchEvent(new Event('cartOpened')); // Refresh cart view
+        }
+
+        function updateCartUI() {
+            const totalItems = getCart().reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelectorAll('.cart-badge').forEach(badge => {
+                if (totalItems > 0) { badge.textContent = totalItems; badge.style.display = 'inline-block'; } 
+                else { badge.style.display = 'none'; }
+            });
+        }
+
+        document.addEventListener('cartOpened', function() {
+            const cart = getCart();
+            const cartListPage = document.getElementById('cart-items-list-page');
+            const subtotalEl = document.getElementById('summary-subtotal');
+            const totalEl = document.getElementById('summary-total');
+            
+            cartListPage.innerHTML = '';
+            if (cart.length === 0) {
+                cartListPage.innerHTML = '<p>Your cart is currently empty.</p>';
+                subtotalEl.textContent = '₹0.00';
+                totalEl.textContent = '₹0.00';
+                return;
+            }
+            let subtotal = 0;
+            cart.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.classList.add('cart-item');
+                itemEl.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-details">
+                        <h3>${item.name}</h3>
+                        <p>Price: ₹${item.price.toFixed(2)}</p>
+                        <p>Quantity: ${item.quantity}</p>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="item-remove" data-name="${item.name}"><i class="fas fa-trash-alt"></i></button>
+                    </div>`;
+                cartListPage.appendChild(itemEl);
+                subtotal += item.price * item.quantity;
+            });
+            
+            subtotalEl.textContent = `₹${subtotal.toFixed(2)}`;
+            totalEl.textContent = `₹${subtotal.toFixed(2)}`;
+
+            cartListPage.querySelectorAll('.item-remove').forEach(b => b.addEventListener('click', () => removeFromCart(b.dataset.name)));
+        });
+
+        // ========== T-SHIRT CUSTOMIZER LOGIC ==========
+        function initTshirtCanvas() {
+            canvas = document.getElementById('preview-canvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            tshirtImg = document.getElementById('tshirt-image');
+            tshirtImg.onload = () => {
+                canvas.width = tshirtImg.clientWidth;
+                canvas.height = tshirtImg.clientHeight;
+                drawCanvas();
+            };
+            if(tshirtImg.complete) tshirtImg.onload();
+        }
+        
+        function drawCanvas() {
+            if(!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (uploadedImg) {
+                const scale = 0.3; const w = canvas.width * scale; const h = w * (uploadedImg.height / uploadedImg.width);
+                const x = canvas.width * 0.5 - w / 2; const y = canvas.height * 0.3;
+                ctx.drawImage(uploadedImg, x, y, w, h);
+            }
+            if (G_STATE.tshirt.text) {
+                ctx.fillStyle = (G_STATE.tshirt.color === 'white') ? 'black' : 'white';
+                ctx.font = '24px Montserrat'; ctx.textAlign = 'center';
+                ctx.fillText(G_STATE.tshirt.text, canvas.width / 2, canvas.height * 0.6);
+            }
+        }
+
+        function saveTshirtDesign() {
+            if(!G_STATE.isUserLoggedIn) return alert("Please log in to save your design.");
+            let designs = JSON.parse(localStorage.getItem(`designs_${G_STATE.currentUser}`)) || [];
+            designs.push(G_STATE.tshirt);
+            localStorage.setItem(`designs_${G_STATE.currentUser}`, JSON.stringify(designs));
+            alert("Design saved to your dashboard!");
+        }
+        
+        document.addEventListener('authChange', updateLoginStateUI);
+
+        // ========== EVENT LISTENERS ATTACHMENT ==========
+        function attachEventListeners() {
+            document.body.addEventListener('click', function(e) {
+                // Navigation links
+                if (e.target.closest('a[data-target-page]')) {
+                    e.preventDefault();
+                    showPage(e.target.closest('a[data-target-page]').dataset.targetPage);
+                }
+                // Auth page buttons
+                if (e.target.matches('button[data-auth-type]')) {
+                    e.preventDefault();
+                    showPage('page-auth', e.target.dataset.authType);
+                }
+                // Prototype "Add to Cart" buttons
+                if (e.target.matches('.add-to-cart-prototype')) {
+                    e.preventDefault();
+                    const card = e.target.closest('.prototype-card');
+                    addToCart({ name: card.dataset.name, price: parseFloat(card.dataset.price), image: card.dataset.image });
+                }
+                // Save T-shirt design button
+                if (e.target.matches('.save-design-btn')) {
+                    saveTshirtDesign();
+                }
+            });
+            
+            // Auth page sliding panel buttons
+            const signUpButton = document.getElementById('signUp');
+            const signInButton = document.getElementById('signIn');
+            const container = document.getElementById('authContainer');
+            if(signUpButton) signUpButton.addEventListener('click', () => container.classList.add('right-panel-active'));
+            if(signInButton) signInButton.addEventListener('click', () => container.classList.remove('right-panel-active'));
+
+            // T-shirt controls
+            document.querySelectorAll('.color-swatches button').forEach(b => b.addEventListener('click', (e) => {
+                document.querySelectorAll('.color-swatches button').forEach(btn => btn.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                G_STATE.tshirt.color = e.currentTarget.dataset.color;
+                tshirtImg.src = e.currentTarget.dataset.imageUrl;
+            }));
+            document.querySelectorAll('.size-options button').forEach(b => b.addEventListener('click', (e) => {
+                document.querySelectorAll('.size-options button').forEach(btn => btn.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                G_STATE.tshirt.size = e.currentTarget.textContent;
+            }));
+            const imageLoader = document.getElementById('image-loader');
+            if(imageLoader) imageLoader.addEventListener('change', (e) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    uploadedImg = new Image();
+                    uploadedImg.onload = () => { G_STATE.tshirt.image = uploadedImg.src; drawCanvas(); };
+                    uploadedImg.src = event.target.result;
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            });
+            const textInput = document.getElementById('text-input');
+            if(textInput) textInput.addEventListener('input', (e) => {
+                G_STATE.tshirt.text = e.target.value;
+                drawCanvas();
+            });
+            
+            // Social Sharing
+            const pageUrl = encodeURIComponent(window.location.href);
+            document.querySelector('.share-fb')?.setAttribute('href', `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`);
+            document.querySelector('.share-tw')?.setAttribute('href', `https://twitter.com/intent/tweet?url=${pageUrl}&text=Check+out+my+custom+design!`);
+            document.querySelector('.share-wa')?.setAttribute('href', `https://api.whatsapp.com/send?text=Check+out+my+custom+design!+${pageUrl}`);
+        }
+    });
+  </script>
+</body>
+</html>
